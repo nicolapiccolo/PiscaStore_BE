@@ -22,19 +22,24 @@ public class User {
     private String surname;
 
 
-
     private String username;
 
     @Email
     private String email;
     private String password;
 
+    private String phone;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(	name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(mappedBy="user",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private Set<Address> addresses;
 
     public Long getId() {
         return id;
@@ -92,13 +97,22 @@ public class User {
         this.username = username;
     }
 
+    public Set<Address> getAddresses() { return addresses; }
+
+    public void setAddresses(Set<Address> addresses) { this.addresses = addresses; }
+
+    public String getPhone() { return phone; }
+
+    public void setPhone(String phone) { this.phone = phone; }
+
     public User(){}
 
-    public User(String name, String surname, String username, String email, String password) {
+    public User(String name, String surname, String username, String email, String phone, String password) {
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.email = email;
+        this.phone = phone;
         this.password = password;
     }
 }
