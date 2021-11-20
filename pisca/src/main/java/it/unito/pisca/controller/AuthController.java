@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import it.unito.pisca.entity.Address;
 import it.unito.pisca.entity.Role;
 import it.unito.pisca.entity.User;
 import it.unito.pisca.enums.RoleNumber;
@@ -14,6 +15,7 @@ import it.unito.pisca.payload.request.LoginRequest;
 import it.unito.pisca.payload.request.SignupRequest;
 import it.unito.pisca.payload.response.JwtResponse;
 import it.unito.pisca.payload.response.MessageResponse;
+import it.unito.pisca.repository.AddressRepository;
 import it.unito.pisca.repository.RoleRepository;
 import it.unito.pisca.repository.UserRepository;
 import it.unito.pisca.security.jwt.JwtUtils;
@@ -46,6 +48,9 @@ public class AuthController {
 	RoleRepository roleRepository;
 
 	@Autowired
+	AddressRepository addressRepository;
+
+	@Autowired
 	PasswordEncoder encoder;
 
 	@Autowired
@@ -68,7 +73,9 @@ public class AuthController {
 		return ResponseEntity.ok(new JwtResponse(jwt,
 												 userDetails.getId(), 
 												 userDetails.getUsername(), 
-												 userDetails.getEmail(), 
+												 userDetails.getEmail(),
+												 userDetails.getName(),
+												 userDetails.getSurname(),
 												 roles));
 	}
 
@@ -87,11 +94,14 @@ public class AuthController {
 		}
 
 		// Create new user's account
-		User user = new User("name",
-							"surn",
+		User user = new User(signUpRequest.getName(),
+							 signUpRequest.getSurname(),
 							 signUpRequest.getUsername(),
 							 signUpRequest.getEmail(),
+							 signUpRequest.getPhone(),
 							 encoder.encode(signUpRequest.getPassword()));
+
+
 
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
@@ -100,6 +110,10 @@ public class AuthController {
 			Role userRole = roleRepository.findByName(RoleNumber.ROLE_USER)
 					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 			roles.add(userRole);
+
+			Role adminRole = roleRepository.findByName(RoleNumber.ROLE_ADMIN)
+					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+			roles.add(adminRole);
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
@@ -123,8 +137,24 @@ public class AuthController {
 			});
 		}
 
+
+
+
+
 		user.setRoles(roles);
-		userRepository.save(user);
+
+		User u  = userRepository.save(user);
+
+		Set<Address> addresses = signUpRequest.getAddresses(); //aggiunta lista di indirizzi
+
+		System.out.println(addresses);
+		for(Address a: addresses){
+			a.setUser(u);
+			addressRepository.save(a);
+		}
+
+		user.setAddresses(addresses);
+
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
