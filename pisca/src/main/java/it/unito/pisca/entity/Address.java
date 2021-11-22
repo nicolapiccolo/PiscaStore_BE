@@ -1,5 +1,7 @@
 package it.unito.pisca.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,9 +16,12 @@ public class Address {
     private String country;
     private String zipCode;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public Address(){ }
 
 
     public Address(String street, String city, String country, String zipCode) {

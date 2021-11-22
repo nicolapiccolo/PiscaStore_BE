@@ -1,5 +1,6 @@
 package it.unito.pisca.security.services;
 
+import it.unito.pisca.entity.Address;
 import it.unito.pisca.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
@@ -25,12 +27,18 @@ public class UserDetailsImpl implements UserDetails {
     private String name;
     private String surname;
 
+    private String phone;
+
+    @JsonIgnore
+    private Set<Address> addresses;
+
     @JsonIgnore
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailsImpl(Long id, String username, String email, String password, String name, String surname,
+                           String phone, Set<Address> addresses,
                            Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
@@ -38,6 +46,8 @@ public class UserDetailsImpl implements UserDetails {
         this.surname = surname;
         this.email = email;
         this.password = password;
+        this.phone = phone;
+        this.addresses = addresses;
         this.authorities = authorities;
     }
 
@@ -53,6 +63,8 @@ public class UserDetailsImpl implements UserDetails {
                 user.getPassword(),
                 user.getName(),
                 user.getSurname(),
+                user.getPhone(),
+                user.getAddresses(),
                 authorities);
     }
 
@@ -72,6 +84,10 @@ public class UserDetailsImpl implements UserDetails {
     public String getName() { return name; }
 
     public String getSurname() { return surname; }
+
+    public String getPhone() { return phone; }
+
+    public Set<Address> getAddresses() { return addresses; }
 
     @Override
     public String getPassword() { return password; }
