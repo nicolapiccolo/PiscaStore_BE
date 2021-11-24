@@ -55,6 +55,7 @@ public class AuthController {
 	@Autowired
 	JwtUtils jwtUtils;
 
+	/*
 	@GetMapping("/user/addresses")
 	public ResponseEntity<?> currentUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -71,7 +72,9 @@ public class AuthController {
 			else return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 		else return new ResponseEntity(HttpStatus.NOT_FOUND);
-	}
+	}*/
+
+
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
