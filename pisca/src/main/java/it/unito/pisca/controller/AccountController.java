@@ -14,9 +14,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import sun.text.resources.cldr.as.FormatData_as;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -81,9 +83,64 @@ public class AccountController {
             _user.setSurname(user.getSurname());
             _user.setEmail(user.getEmail());
             _user.setPhone(user.getPhone());
-            _user.setUsername(user.getUsername());
+            //_user.setUsername(user.getUsername());
+
+
+            Set<Address> addresses =  _user.getAddresses();
+            System.out.println("Is Empty? " + addresses.isEmpty()); //no address in registration
+
+            if(addresses.isEmpty()){
+                if(!user.getAddresses().isEmpty()) //address provided in user update
+                {
+                    //create new address linked to this user
+
+                    Set<Address> reqAddresses = user.getAddresses();
+
+                    System.out.println(reqAddresses.size());
+
+                    for(Address a: reqAddresses){
+                        a.setUser(_user);
+                        addressRepository.save(a);
+                    }
+
+                    _user.setAddresses(reqAddresses);
+                }
+            }
+            else{ //modify existing address
+                if(!user.getAddresses().isEmpty()) //address provided in user update
+                {
+                    System.out.println("Modify existing address");
+
+                    Set<Address> reqAddresses = user.getAddresses();
+                    System.out.println(reqAddresses.size());
+
+
+                    for (Address a : addresses) {
+                        System.out.println("Id of existing address: " + a.getId());
+                        Optional<Address> addressData = addressRepository.findById(a.getId());
+
+                        if (addressData.isPresent()) {
+                            Address n_add = reqAddresses.iterator().next();
+
+                            Address _address = addressData.get();
+                            _address.setStreet(n_add.getStreet());
+                            _address.setCity(n_add.getCity());
+                            _address.setCountry(n_add.getCountry());
+                            _address.setZipCode(n_add.getZipCode());
+
+                            addressRepository.save(_address);
+                        } else return new ResponseEntity<>("Address not found", HttpStatus.NOT_FOUND);
+
+                    }
+                }
+            }
+
+
+
 
             return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+            //return new ResponseEntity<>("user updated", HttpStatus.OK);
+
         }
         else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
