@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  
+  dbpostgresql_catalog:
+    image: "postgres"
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_DB: catalogdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      restart: unless-stopped
+
+  dbpostgresql_user:
+    image: "postgres"
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_DB: userdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  user_service:
+    image: user_service:latest
+    ports:
+      - 8081:8081
+    depends_on:
+      - rabbitmq
+      - dbpostgresql_user
+
+  catalog_service:
+    image: catalog_service:latest
+    ports:
+      - 8082:8082
+    depends_on:
+      - rabbitmq
+      - dbpostgresql_catalog
