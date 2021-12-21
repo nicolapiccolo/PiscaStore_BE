@@ -2,6 +2,10 @@
 
 Back End con Spring Boot per il server della piattaforma.
 
+# MicroService ports
+- 8081 -> User Service
+- 8082 -> Catalog Service
+
 API dei vari Controller implementati:
 
 | Metodo | URL          | Azione                             |
