@@ -20,6 +20,7 @@ import it.unito.user_service.repository.RoleRepository;
 import it.unito.user_service.repository.UserRepository;
 import it.unito.user_service.security.jwt.JwtUtils;
 import it.unito.user_service.security.services.UserDetailsImpl;
+import it.unito.user_service.service.RabbitMQSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -72,6 +73,20 @@ public class AuthController {
 	}*/
 
 
+	private RabbitMQSender rabbitMqSender;
+
+	private String message = "Message sent successfully";
+
+	@Autowired
+	public AuthController(RabbitMQSender rabbitMqSender) {
+		this.rabbitMqSender = rabbitMqSender;
+	}
+
+	@PostMapping("/user")
+	public String publishUserDetails(@RequestBody it.unito.user_service.messaging.User user) {
+		rabbitMqSender.send(user);
+		return message;
+	}
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -174,6 +189,11 @@ public class AuthController {
 		user.setAddresses(addresses);
 
 
-		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+
+		//send user to catalo service
+		it.unito.user_service.messaging.User user_message = new it.unito.user_service.messaging.User(u.getId(),u.getName(),u.getSurname());
+		rabbitMqSender.send(user_message);
+
+		return ResponseEntity.ok(new MessageResponse("User registered successfully!" + "\n" + message));
 	}
 }
