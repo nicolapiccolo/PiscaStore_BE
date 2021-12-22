@@ -1,7 +1,4 @@
-FROM openjdk:13-alpine
-RUN addgroup -S spring && adduser -S spring -G spring
-VOLUME /tmp
-EXPOSE 8081
-ARG DEPENDENCY=target
-ADD ${DEPENDENCY}/*.jar user_service.jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/user_service.jar"]
+FROM openjdk:13-jdk-alpine
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} user_service.jar
+ENTRYPOINT ["java","-jar","/user_service.jar"]

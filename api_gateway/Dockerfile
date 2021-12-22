@@ -1,7 +1,4 @@
-FROM openjdk:13-alpine
-RUN addgroup -S spring && adduser -S spring -G spring
-VOLUME /tmp
-EXPOSE 8080
-ARG DEPENDENCY=target
-ADD ${DEPENDENCY}/*.jar api_gateway.jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/api_gateway.jar"]
+FROM openjdk:13-jdk-alpine
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} api_gateway.jar
+ENTRYPOINT ["java","-jar","/api_gateway.jar"]
