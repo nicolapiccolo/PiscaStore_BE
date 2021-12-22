@@ -1,7 +1,7 @@
-package it.unito.catalog_service.service;
+package it.unito.user_service.service;
 
-import it.unito.catalog_service.entity.Author;
-import it.unito.catalog_service.messaging.User;
+
+import it.unito.user_service.messaging.User;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
