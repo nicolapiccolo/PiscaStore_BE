@@ -43,3 +43,8 @@ services:
     depends_on:
       - rabbitmq
       - dbpostgresql_catalog
+
+  api_gateway:
+    image: api_gateway:latest
+    ports:
+      - 8080:8080

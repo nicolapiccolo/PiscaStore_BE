@@ -1,4 +1,4 @@
-package it.unito.user_service.config;
+package it.unito.catalog_service.config;
 
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -12,6 +12,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
+
+    //FOR RECEIVER
+
+
     @Value("${spring.rabbitmq.r_queue}")
     private String queue;
     @Value("${spring.rabbitmq.r_exchange}")

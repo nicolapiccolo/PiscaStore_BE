@@ -21,19 +21,6 @@ public class AuthorController {
 
     private String message = "Message sent successfully";
 
-    @GetMapping("/authors")
-    public List<Author> find(){
-        return authorRepository.findAll();
-    }
-
-    @PostMapping("/authors/create")
-    public void create(@RequestBody Author author){
-        authorRepository.save(author);
-    }
-
-
-
-
     @Autowired
     public AuthorController(RabbitMQSender rabbitMqSender) {
         this.rabbitMqSender = rabbitMqSender;
@@ -43,6 +30,16 @@ public class AuthorController {
     public String publishUserDetails(@RequestBody User user) {
         rabbitMqSender.send(user);
         return message;
+    }
+
+    @GetMapping("/authors")
+    public List<Author> find(){
+        return authorRepository.findAll();
+    }
+
+    @PostMapping("/authors/create")
+    public void create(@RequestBody Author author){
+        authorRepository.save(author);
     }
 
 }
