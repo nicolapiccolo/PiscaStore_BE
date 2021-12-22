@@ -5,22 +5,26 @@ services:
   dbpostgresql_catalog:
     image: "postgres"
     ports:
-      - "5432"
+      - "5433:5432"
     environment:
       POSTGRES_DB: catalogdb
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
       restart: unless-stopped
+    volumes:
+      - pgdata_catalog:/var/lib/postgresql/data
 
   dbpostgresql_user:
     image: "postgres"
     ports:
-      - "5432"
+      - "5434:5432"
     environment:
       POSTGRES_DB: userdb
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
       restart: unless-stopped
+    volumes:
+      - pgdata_user:/var/lib/postgresql/data
 
   rabbitmq:
     image: rabbitmq:management
@@ -48,3 +52,8 @@ services:
     image: api_gateway:latest
     ports:
       - 8080:8080
+
+volumes: 
+    pgdata_user:
+    pgdata_catalog:
+
