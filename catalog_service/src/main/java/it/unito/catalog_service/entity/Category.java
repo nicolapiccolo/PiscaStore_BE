@@ -1,47 +1,31 @@
 package it.unito.catalog_service.entity;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-public class Author implements Serializable {
-
+@Table(uniqueConstraints = {
+                @UniqueConstraint(columnNames = "name")
+        })
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-    private String surname;
 
-    private Long idUser;
+    private String description;
 
     @JsonIgnore
-    @OneToMany(mappedBy="author",
+    @OneToMany(mappedBy="category",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private Set<Product> products;
 
-    public Author(String name, String surname, Long idUser) {
-        this.name = name;
-        this.surname = surname;
-        this.idUser = idUser;
-    }
-
-    public Author(){
-
-    }
-
-    public Long getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
-    }
 
     public Long getId() {
         return id;
@@ -59,12 +43,12 @@ public class Author implements Serializable {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Set<Product> getProducts() {
@@ -75,5 +59,17 @@ public class Author implements Serializable {
         this.products = products;
     }
 
+    public Category(){}
+
+    public Category(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    @Override
+    public String toString(){
+        return String.format("Category[id=%d, name='%s', description='%s']",
+                id, name, description);
+    }
 
 }
