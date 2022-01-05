@@ -42,4 +42,8 @@ public class AuthorController {
         authorRepository.save(author);
     }
 
+    @GetMapping("/test")
+    public String testCatalog(){
+        return "lo vedi il catalogo";
+    }
 }
