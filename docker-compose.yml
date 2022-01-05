@@ -32,7 +32,7 @@ services:
       - "5672:5672"
       - "15672:15672"
 
-  user_service:
+  user:
     image: user_service:latest
     ports:
       - 8081:8081
@@ -40,7 +40,7 @@ services:
       - rabbitmq
       - dbpostgresql_user
 
-  catalog_service:
+  catalog:
     image: catalog_service:latest
     ports:
       - 8082:8082
@@ -52,6 +52,7 @@ services:
     image: api_gateway:latest
     ports:
       - 8080:8080
+
 
 volumes: 
     pgdata_user:

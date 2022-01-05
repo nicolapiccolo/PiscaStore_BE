@@ -3,6 +3,8 @@ package it.unito.user_service.controller;
 import it.unito.user_service.messaging.User;
 import it.unito.user_service.service.RabbitMQSender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +32,12 @@ public class TestController {
 	public String allAccess() {
 		return "Public Content.";
 	}
-	
+
+	@GetMapping("/response")
+	public ResponseEntity<?> response(){
+		return new ResponseEntity("Product saved ", HttpStatus.OK);
+	}
+
 	@GetMapping("/user")
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public String userAccess() {

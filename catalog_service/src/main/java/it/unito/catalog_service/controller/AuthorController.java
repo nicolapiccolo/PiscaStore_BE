@@ -42,10 +42,9 @@ public class AuthorController {
     public void create(@RequestBody Author author){
         authorRepository.save(author);
     }
-
+  
     @GetMapping("/authors/{id}")
     public Optional<Author> findById(@PathVariable Long id){
         return authorRepository.findById(id);
     }
-
 }
