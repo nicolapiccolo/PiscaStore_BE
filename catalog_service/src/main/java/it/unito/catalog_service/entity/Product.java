@@ -21,10 +21,15 @@ public class Product implements Serializable {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
-    public Product(String name, String description, String dimensions, float price, String image, boolean available, Author author) {
+    /*public Product(String name, String description, String dimensions, float price, String image, boolean available, Author author) {
         this.name = name;
         this.description = description;
         this.dimensions = dimensions;
@@ -32,7 +37,7 @@ public class Product implements Serializable {
         this.image = image;
         this.available = available;
         this.author = author;
-    }
+    }*/
 
     public Product(String name, String description, String dimensions, float price, String image, boolean available) {
         this.name = name;
@@ -42,6 +47,7 @@ public class Product implements Serializable {
         this.image = image;
         this.available = available;
     }
+
 
     public Product(){
 
@@ -109,5 +115,13 @@ public class Product implements Serializable {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

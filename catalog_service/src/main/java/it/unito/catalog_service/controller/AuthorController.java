@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -40,6 +41,11 @@ public class AuthorController {
     @PostMapping("/authors/create")
     public void create(@RequestBody Author author){
         authorRepository.save(author);
+    }
+
+    @GetMapping("/authors/{id}")
+    public Optional<Author> findById(@PathVariable Long id){
+        return authorRepository.findById(id);
     }
 
 }
