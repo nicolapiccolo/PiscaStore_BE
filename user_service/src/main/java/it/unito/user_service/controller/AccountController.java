@@ -45,10 +45,10 @@ public class AccountController {
         else return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/username")
+    @GetMapping("/current")
     public ResponseEntity<?> getName(@AuthenticationPrincipal UserDetailsImpl userDetails){
         Long user_id = userDetails.getId();
-        return ResponseEntity.ok("User ID: " + user_id);
+        return new ResponseEntity(String.valueOf(user_id),HttpStatus.OK);
     }
 
     /*

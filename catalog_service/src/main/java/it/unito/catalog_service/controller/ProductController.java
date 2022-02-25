@@ -10,6 +10,7 @@ import it.unito.catalog_service.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,10 @@ public class ProductController {
 
     @GetMapping("/catalog")
     public List<Product> find(){
+        Object user = SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        System.out.println(user.toString());
+
         return productRepository.findByAvailableTrue();
     }
 
@@ -77,6 +82,7 @@ public class ProductController {
             Author aut = aut_opt.get();
 
             Optional c_opt = categoryRepository.findByName(category_name);
+
 
             if(c_opt.isPresent()) product.setCategory((Category) c_opt.get());
 
