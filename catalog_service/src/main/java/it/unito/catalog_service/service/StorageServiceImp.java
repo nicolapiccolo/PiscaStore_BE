@@ -73,11 +73,22 @@ public class StorageServiceImp implements StorageService {
         }
     }
 
+    @Override
+    public boolean delete(String filename) {
+        Path file = root.resolve(filename);
+        try {
+            return Files.deleteIfExists(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Could not read the file!");
+        }
+    }
 
     @Override
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(root.toFile());
     }
+
 
     @Override
     public Stream<Path> loadAll() {

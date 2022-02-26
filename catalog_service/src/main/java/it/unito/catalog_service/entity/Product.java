@@ -17,6 +17,9 @@ public class Product implements Serializable {
     private String dimensions;
     private float price;
     private String image;
+    private String image2;
+    private String image3;
+    private String image4;
     private boolean available;
 
     @JsonIgnore
@@ -49,7 +52,7 @@ public class Product implements Serializable {
     }
 
 
-    public Product(){
+    public Product() {
 
     }
 
@@ -107,6 +110,30 @@ public class Product implements Serializable {
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public String getImage2() {
+        return image2;
+    }
+
+    public void setImage2(String image2) {
+        this.image2 = image2;
+    }
+
+    public String getImage3() {
+        return image3;
+    }
+
+    public void setImage3(String image3) {
+        this.image3 = image3;
+    }
+
+    public String getImage4() {
+        return image4;
+    }
+
+    public void setImage4(String image4) {
+        this.image4 = image4;
     }
 
     public Author getAuthor() {
