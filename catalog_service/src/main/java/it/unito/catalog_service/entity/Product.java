@@ -1,6 +1,7 @@
 package it.unito.catalog_service.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,7 +14,11 @@ public class Product implements Serializable {
     private Long id;
 
     private String name;
+
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
     private String description;
+
     private String dimensions;
     private float price;
     private String image;

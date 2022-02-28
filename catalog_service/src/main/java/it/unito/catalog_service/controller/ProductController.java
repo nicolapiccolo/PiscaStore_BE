@@ -4,6 +4,7 @@ import it.unito.catalog_service.entity.Author;
 import it.unito.catalog_service.entity.Category;
 import it.unito.catalog_service.entity.Product;
 import it.unito.catalog_service.messaging.ProductAuthor;
+import it.unito.catalog_service.messaging.ResponseMessage;
 import it.unito.catalog_service.repository.AuthorRepository;
 import it.unito.catalog_service.repository.CategoryRepository;
 import it.unito.catalog_service.repository.ProductRepository;
@@ -70,7 +71,7 @@ public class ProductController {
     }
 
     @PostMapping("/products/create")
-    public ResponseEntity<?> create(@RequestBody ProductAuthor prod){
+    public ResponseEntity<ResponseMessage> create(@RequestBody ProductAuthor prod){
 
         Product product = prod.getProduct();
         String category_name = prod.getCategory();
@@ -89,9 +90,9 @@ public class ProductController {
             product.setAuthor(aut);
 
             Product p = productRepository.save(product);
-            return new ResponseEntity("Product saved ",HttpStatus.OK);
+            return new ResponseEntity(new ResponseMessage(String.valueOf(p.getId())),HttpStatus.OK);
         }
-        else return new ResponseEntity("The author not exists ",HttpStatus.NOT_FOUND);
+        else return new ResponseEntity(new ResponseMessage("The author not exists "),HttpStatus.NOT_FOUND);
     }
 
 
