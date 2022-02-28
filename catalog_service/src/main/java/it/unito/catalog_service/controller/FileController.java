@@ -73,6 +73,14 @@ public class FileController {
 
     }
 
+    @GetMapping("image/delete/{filename}")
+    public ResponseEntity<ResponseMessage> deleteFile(@PathVariable String filename){
+        boolean result = storageService.delete(filename);
+        if(result) return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("File deleted"));
+        else return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("Could not delete the file"));
+    }
+
+
     @GetMapping("image/files")
     public ResponseEntity<List<String>> getListFiles() {
         List<String> fileInfos = storageService.loadAll().map(path -> {

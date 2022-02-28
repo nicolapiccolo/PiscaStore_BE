@@ -92,9 +92,7 @@ public class ProductController {
             return new ResponseEntity("Product saved ",HttpStatus.OK);
         }
         else return new ResponseEntity("The author not exists ",HttpStatus.NOT_FOUND);
-
     }
-
 
 
 
