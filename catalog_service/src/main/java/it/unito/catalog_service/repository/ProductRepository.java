@@ -10,4 +10,6 @@ public interface ProductRepository  extends JpaRepository<Product,Long> {
     List<Product> findByAuthorId(Long id);
     List<Product> findByAvailableTrue();
     List<Product> findByCategoryId(Long id);
+    void deleteById(Long id);
+
 }

@@ -47,8 +47,7 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public List<Product> findByAuthor(@RequestBody String id_author){
-        Long id = Long.parseLong(id_author);
+    public List<Product> findByAuthor(@RequestParam(value="id") Long id){
         System.out.println("ID: "+ id);
         return productRepository.findByAuthorId(id);
     }
@@ -67,7 +66,15 @@ public class ProductController {
             return details;
         }
         else return null;
+    }
 
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<ResponseMessage> delete(@PathVariable Long id){
+        if(productRepository.existsById(id)) {
+            productRepository.deleteById(id);
+            return new ResponseEntity(new ResponseMessage("Deleted"),HttpStatus.OK);
+        }
+        else return new ResponseEntity(new ResponseMessage("Product not exists"),HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/products/create")
