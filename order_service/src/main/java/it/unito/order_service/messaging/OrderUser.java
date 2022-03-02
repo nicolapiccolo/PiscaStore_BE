@@ -1,10 +1,10 @@
 package it.unito.order_service.messaging;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import it.unito.order_service.entity.Order;
+import it.unito.order_service.entity.Bag;
 
 public class OrderUser {
-    private Order order;
+    private Bag bag;
 
     @JsonProperty("id_user")
     private Long id_user;
@@ -13,13 +13,13 @@ public class OrderUser {
 
     public OrderUser(){}
 
-    public OrderUser(Order order, Long id_user){
-        this.order = order;
+    public OrderUser(Bag bag, Long id_user){
+        this.bag = bag;
         this.id_user = id_user;
     }
 
-    public Order getOrder() {
-        return order;
+    public Bag getBag() {
+        return bag;
     }
 
     public Long getId_user() {
@@ -34,8 +34,8 @@ public class OrderUser {
         this.totalPrice = totalPrice;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setBag(Bag bag) {
+        this.bag = bag;
     }
 
     public void setId_user(Long id_user) {

@@ -7,23 +7,31 @@ import java.io.Serializable;
 
 @Entity
 public class OrderItem implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long product_id;
+    private Long idProduct;
 
     private String name;
-
     private float price;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name= "order_id", nullable = false)
-    private Order order;
+    private Bag bag;
 
-    public Long getProduct_id() {
-        return product_id;
+    public OrderItem(){
+
+    }
+
+
+    public OrderItem(Long idProduct, String name, float price, Bag bag) {
+        this.idProduct = idProduct;
+        this.name = name;
+        this.price = price;
+        this.bag = bag;
     }
 
     public String getName() {
@@ -34,12 +42,17 @@ public class OrderItem implements Serializable {
         return price;
     }
 
-    public void setProduct_id(Long product_id) {
-        this.product_id = product_id;
-    }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getIdProduct() {
+        return idProduct;
+    }
+
+    public void setIdProduct(Long idProduct) {
+        this.idProduct = idProduct;
     }
 
     public void setPrice(float price) {
