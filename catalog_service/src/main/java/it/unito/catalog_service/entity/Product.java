@@ -56,7 +56,6 @@ public class Product implements Serializable {
         this.available = available;
     }
 
-
     public Product() {
 
     }

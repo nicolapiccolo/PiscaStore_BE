@@ -68,7 +68,7 @@ public class ProductController {
         else return null;
     }
 
-    @DeleteMapping("/products/{id}")
+    @GetMapping("/products/delete/{id}")
     public ResponseEntity<ResponseMessage> delete(@PathVariable Long id){
         if(productRepository.existsById(id)) {
             productRepository.deleteById(id);
