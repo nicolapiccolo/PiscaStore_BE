@@ -12,7 +12,7 @@
 	<artifactId>order_service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>order_service</name>
-	<description>MicroService for order management</description>
+	<description>MicroService for bag management</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
