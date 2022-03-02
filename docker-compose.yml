@@ -26,6 +26,18 @@ services:
     volumes:
       - pgdata_user:/var/lib/postgresql/data
 
+  dbpostgresql_order:
+    image: "postgress"
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_DB: orderdb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      restart: unless-stopped
+    volumes:
+      - pgdata_user:/var/lib/postgresql/data
+
   rabbitmq:
     image: rabbitmq:management
     ports:
@@ -44,11 +56,17 @@ services:
     image: catalog_service:latest
     ports:
       - 8082:8082
-    volumes:
-      - imgs_data:/catalog
+
     depends_on:
       - rabbitmq
       - dbpostgresql_catalog
+
+  order:
+    image: order_service:latest
+    ports:
+      - 8083:8083
+    depends_on:
+      - dbpostgresql_order
 
   api_gateway:
     image: api_gateway:latest
@@ -59,10 +77,6 @@ services:
 volumes: 
     pgdata_user:
     pgdata_catalog:
-    imgs_data:
-      driver: local
-      driver_opts:
-        o: bind
-        type: none
-        device: /Users/nicopiccolo/PiscaStore/imgs
+    pgdata_order:
+
 
