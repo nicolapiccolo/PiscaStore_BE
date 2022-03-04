@@ -4,10 +4,12 @@ import it.unito.catalog_service.entity.Author;
 import it.unito.catalog_service.entity.Category;
 import it.unito.catalog_service.entity.Product;
 import it.unito.catalog_service.messaging.ProductAuthor;
+import it.unito.catalog_service.messaging.ProductItem;
 import it.unito.catalog_service.messaging.ResponseMessage;
 import it.unito.catalog_service.repository.AuthorRepository;
 import it.unito.catalog_service.repository.CategoryRepository;
 import it.unito.catalog_service.repository.ProductRepository;
+import it.unito.catalog_service.service.RabbitMQSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,15 @@ public class ProductController {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+
+    private RabbitMQSender rabbitMqSender;
+
+
+    @Autowired
+    public ProductController(RabbitMQSender rabbitMqSender) {
+        this.rabbitMqSender = rabbitMqSender;
+    }
 
     @GetMapping("/catalog")
     public List<Product> find(){
@@ -100,6 +111,14 @@ public class ProductController {
             return new ResponseEntity(new ResponseMessage(String.valueOf(p.getId())),HttpStatus.OK);
         }
         else return new ResponseEntity(new ResponseMessage("The author not exists "),HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/products/send")
+    public ResponseEntity<ResponseMessage> sendItem(){
+        ProductItem item = new ProductItem((long) 1,"Item prova",28.4f);
+        rabbitMqSender.sendProductToOrder(item);
+        return new ResponseEntity(new ResponseMessage("Sended"),HttpStatus.OK);
+
     }
 
 

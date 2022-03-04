@@ -23,17 +23,14 @@ public class Bag implements Serializable{
     @OneToMany(mappedBy="bag",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    private Set<OrderItem> item;
+    private Set<Item> items;
 
-
-
-    public Bag(float price, Set<OrderItem> item, Long idUser) {
-        this.price = price;
-        this.item = item;
-        this.idUser = idUser;
-    }
 
     public Bag() {
+    }
+
+    public Bag(Long idUser) {
+        this.idUser = idUser;
     }
 
     public Long getId() {
@@ -52,13 +49,6 @@ public class Bag implements Serializable{
         this.price = price;
     }
 
-    public Set<OrderItem> getItem() {
-        return item;
-    }
-
-    public void setItem(Set<OrderItem> item) {
-        this.item = item;
-    }
 
     public Long getIdUser() {
         return idUser;
@@ -67,19 +57,12 @@ public class Bag implements Serializable{
     public void setIdUser(Long idUser) {
         this.idUser = idUser;
     }
-    /*@JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
 
-    public User getUser(){
-        return user;
+    public Set<Item> getItems() {
+        return items;
     }
 
-    public void setUser(User user){
-        this.user = user;
-    }*/
-
-
-
+    public void setItems(Set<Item> items) {
+        this.items = items;
+    }
 }
