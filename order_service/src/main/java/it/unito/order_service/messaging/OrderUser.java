@@ -2,43 +2,37 @@ package it.unito.order_service.messaging;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.unito.order_service.entity.Bag;
+import it.unito.order_service.entity.Item;
+
+import java.util.Set;
 
 public class OrderUser {
-    private Bag bag;
+
 
     @JsonProperty("id_user")
-    private Long id_user;
+    private Long idUser;
 
-    private float totalPrice;
+    private Set<Item> items;
 
-    public OrderUser(){}
-
-    public OrderUser(Bag bag, Long id_user){
-        this.bag = bag;
-        this.id_user = id_user;
+    public OrderUser(Long idUser, Set<Item> items) {
+        this.idUser = idUser;
+        this.items = items;
     }
 
-    public Bag getBag() {
-        return bag;
+    public Long getIdUser() {
+        return idUser;
     }
 
-    public Long getId_user() {
-        return id_user;
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 
-    public float getTotalPrice(){
-        return totalPrice;
+    public Set<Item> getItems() {
+        return items;
     }
 
-    public void setTotalPrice(float totalPrice){
-        this.totalPrice = totalPrice;
-    }
-
-    public void setBag(Bag bag) {
-        this.bag = bag;
-    }
-
-    public void setId_user(Long id_user) {
-        this.id_user = id_user;
+    public void setItems(Set<Item> items) {
+        this.items = items;
     }
 }
+

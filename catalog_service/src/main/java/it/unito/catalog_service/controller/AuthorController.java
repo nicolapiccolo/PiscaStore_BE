@@ -5,7 +5,6 @@ import it.unito.catalog_service.messaging.User;
 import it.unito.catalog_service.repository.AuthorRepository;
 import it.unito.catalog_service.service.RabbitMQSender;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public class AuthorController {
 
     @PostMapping("/user")
     public String publishUserDetails(@RequestBody User user) {
-        rabbitMqSender.send(user);
+        rabbitMqSender.sendUser(user);
         return message;
     }
 
