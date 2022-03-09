@@ -12,9 +12,12 @@ public class OrderUser {
     @JsonProperty("id_user")
     private Long idUser;
 
+    @JsonProperty("id_address")
+    private Long idAddress;
+
     private Set<Item> items;
 
-    public OrderUser(Long idUser, Set<Item> items) {
+    public OrderUser(Long idUser, Long idAddress, Set<Item> items) {
         this.idUser = idUser;
         this.items = items;
     }
@@ -33,6 +36,14 @@ public class OrderUser {
 
     public void setItems(Set<Item> items) {
         this.items = items;
+    }
+
+    public Long getIdAddress() {
+        return idAddress;
+    }
+
+    public void setIdAddress(Long idAddress) {
+        this.idAddress = idAddress;
     }
 }
 

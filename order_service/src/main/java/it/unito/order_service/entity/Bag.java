@@ -18,6 +18,7 @@ public class Bag implements Serializable{
     private float price;
 
     private Long idUser;
+    private Long idAddress;
 
     @JsonIgnore
     @OneToMany(mappedBy="bag",
@@ -29,8 +30,9 @@ public class Bag implements Serializable{
     public Bag() {
     }
 
-    public Bag(Long idUser) {
+    public Bag(Long idUser, Long idAddress) {
         this.idUser = idUser;
+        this.idAddress = idAddress;
     }
 
     public Long getId() {
@@ -64,5 +66,13 @@ public class Bag implements Serializable{
 
     public void setItems(Set<Item> items) {
         this.items = items;
+    }
+
+    public Long getIdAddress() {
+        return idAddress;
+    }
+
+    public void setIdAddress(Long idAddress) {
+        this.idAddress = idAddress;
     }
 }
