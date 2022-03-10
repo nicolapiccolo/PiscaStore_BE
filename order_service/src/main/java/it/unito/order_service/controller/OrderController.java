@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -41,14 +42,35 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Bag> findById(@PathVariable Long id){
-        return orderRepository.findById(id);
+    public ResponseEntity<OrderUser> findById(@PathVariable Long id){
+
+        Optional<Bag> bag_opt =  orderRepository.findById(id);
+        if(bag_opt.isPresent()){
+            Bag bag = bag_opt.get();
+            OrderUser order = new OrderUser(bag.getIdUser(),bag.getIdAddress(),bag.getItems());
+            return new ResponseEntity(order,HttpStatus.OK);
+            //itemRepository.findByBag(bag);
+        }
+        else return new ResponseEntity(new OrderUser(),HttpStatus.NOT_FOUND);
     }
 
-
     @GetMapping("user/{id}")
-    public Optional<List<Bag>> findByIdUser(@PathVariable Long id){
-        return orderRepository.findByIdUser(id);
+    public ResponseEntity<List<OrderUser>> findByIdUser(@PathVariable Long id){
+
+        Optional<List<Bag>> bag_opt = orderRepository.findByIdUser(id);
+        if(bag_opt.isPresent()){
+            List<Bag> bags = bag_opt.get();
+            List<OrderUser> orders = new ArrayList<OrderUser>();
+
+            for(Bag bag: bags){
+                orders.add(new OrderUser(bag.getIdUser(),bag.getIdAddress(),bag.getItems()));
+            }
+
+            return new ResponseEntity(orders,HttpStatus.OK);
+        }
+        else return new ResponseEntity(new ArrayList<OrderUser>(),HttpStatus.NOT_FOUND);
+
+
     }
 
     @PostMapping("/create")

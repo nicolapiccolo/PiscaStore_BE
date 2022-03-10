@@ -17,6 +17,9 @@ public class OrderUser {
 
     private Set<Item> items;
 
+    public OrderUser(){
+    }
+
     public OrderUser(Long idUser, Long idAddress, Set<Item> items) {
         this.idUser = idUser;
         this.items = items;
