@@ -2,6 +2,7 @@ package it.unito.user_service.controller;
 
 import it.unito.user_service.entity.Address;
 import it.unito.user_service.entity.User;
+import it.unito.user_service.payload.response.MessageResponse;
 import it.unito.user_service.repository.AddressRepository;
 import it.unito.user_service.repository.UserRepository;
 import it.unito.user_service.security.services.UserDetailsImpl;
@@ -39,10 +40,20 @@ public class AccountController {
             User user = user_opt.get();
 
             List<Address> a =  addressRepository.findByUser(user);
-            if(!a.isEmpty()) return ResponseEntity.ok(a.get(0));
+            System.out.println(a.get(0));
+            if(!a.isEmpty()) return ResponseEntity.ok(a);
             else return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         else return new ResponseEntity(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> setAddress(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody Address address){
+        Optional<User> userData = userRepository.findById(userDetails.getId());
+        User _user = userData.get();
+        address.setUser(_user);
+        addressRepository.save(address);
+        return ResponseEntity.ok(new MessageResponse("Address registered successfully!"));
     }
 
     @GetMapping("/current")
