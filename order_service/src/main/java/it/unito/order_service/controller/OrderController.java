@@ -41,10 +41,17 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Bag> findById(@PathVariable Long id){
-        return orderRepository.findById(id);
-    }
+    public ResponseEntity<OrderUser> findById(@PathVariable Long id){
 
+        Optional<Bag> bag_opt =  orderRepository.findById(id);
+        if(bag_opt.isPresent()){
+            Bag bag = bag_opt.get();
+            OrderUser order = new OrderUser(bag.getIdUser(),bag.getIdAddress(),bag.getItems());
+            return new ResponseEntity(order,HttpStatus.OK);
+            //itemRepository.findByBag(bag);
+        }
+        else return new ResponseEntity(new OrderUser(),HttpStatus.NOT_FOUND);
+    }
 
     @GetMapping("user/{id}")
     public Optional<List<Bag>> findByIdUser(@PathVariable Long id){
