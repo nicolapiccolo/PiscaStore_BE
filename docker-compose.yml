@@ -56,7 +56,8 @@ services:
     image: catalog_service:latest
     ports:
       - 8082:8082
-
+    volumes:
+      - imgs_data:/catalog
     depends_on:
       - rabbitmq
       - dbpostgresql_catalog
@@ -79,6 +80,10 @@ volumes:
     pgdata_user:
     pgdata_catalog:
     pgdata_order:
-
-
+    imgs_data:
+      driver: local
+      driver_opts:
+        o: bind
+        type: none
+        device: /Users/nicopiccolo/PiscaStore/imgs
 
