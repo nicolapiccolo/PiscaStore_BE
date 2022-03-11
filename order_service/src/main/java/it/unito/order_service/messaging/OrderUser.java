@@ -23,6 +23,7 @@ public class OrderUser {
     public OrderUser(Long idUser, Long idAddress, Set<Item> items) {
         this.idUser = idUser;
         this.items = items;
+        this.idAddress = idAddress;
     }
 
     public Long getIdUser() {
