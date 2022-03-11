@@ -2,9 +2,11 @@ package it.unito.order_service.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Set;
 
@@ -26,6 +28,9 @@ public class Bag implements Serializable{
             cascade = CascadeType.ALL)
     private Set<Item> items;
 
+    @CreationTimestamp
+    @Temporal(TemporalType.DATE)
+    private Date creation;
 
     public Bag() {
     }
@@ -74,5 +79,13 @@ public class Bag implements Serializable{
 
     public void setIdAddress(Long idAddress) {
         this.idAddress = idAddress;
+    }
+
+    public Date getCreation() {
+        return creation;
+    }
+
+    public void setCreation(Date creation) {
+        this.creation = creation;
     }
 }

@@ -122,7 +122,7 @@ public class OrderController {
     private URI buildReturnUrl(HttpServletRequest request) {
         try {
             URI requestUri = URI.create(request.getRequestURL().toString());
-            return new URI("http://localhost:4200/cart");
+            return new URI("http://localhost:4200/checkout");
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
