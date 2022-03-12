@@ -47,6 +47,19 @@ public class AccountController {
         else return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/address/{id}")
+    public ResponseEntity<?> getAddressById(@PathVariable("id") Long id){
+        Optional<Address> a_opt = addressRepository.findById(id);
+        if(a_opt.isPresent()){
+            Address address = a_opt.get();
+            return new ResponseEntity(address,HttpStatus.OK);
+        }
+        else return new ResponseEntity(HttpStatus.NOT_FOUND);
+
+    }
+
+
+
     @PostMapping("/create")
     public ResponseEntity<?> setAddress(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody Address address){
         Optional<User> userData = userRepository.findById(userDetails.getId());
@@ -61,23 +74,6 @@ public class AccountController {
         Long user_id = userDetails.getId();
         return new ResponseEntity(String.valueOf(user_id),HttpStatus.OK);
     }
-
-    /*
-      @PutMapping("/tutorials/{id}")
-  public ResponseEntity<Tutorial> updateTutorial(@PathVariable("id") long id, @RequestBody Tutorial tutorial) {
-    Optional<Tutorial> tutorialData = tutorialRepository.findById(id);
-
-    if (tutorialData.isPresent()) {
-      Tutorial _tutorial = tutorialData.get();
-      _tutorial.setTitle(tutorial.getTitle());
-      _tutorial.setDescription(tutorial.getDescription());
-      _tutorial.setPublished(tutorial.isPublished());
-      return new ResponseEntity<>(tutorialRepository.save(_tutorial), HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-  }
-     */
 
     @PutMapping("/update")
     public ResponseEntity<?> saveUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody User user){

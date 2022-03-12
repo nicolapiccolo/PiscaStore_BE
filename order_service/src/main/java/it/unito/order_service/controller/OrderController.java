@@ -47,7 +47,7 @@ public class OrderController {
         Optional<Bag> bag_opt =  orderRepository.findById(id);
         if(bag_opt.isPresent()){
             Bag bag = bag_opt.get();
-            OrderUser order = new OrderUser(bag.getIdUser(),bag.getIdAddress(),bag.getItems());
+            OrderUser order = new OrderUser(bag.getId(),bag.getIdUser(),bag.getIdAddress(),bag.getItems(),bag.getCreation());
             return new ResponseEntity(order,HttpStatus.OK);
             //itemRepository.findByBag(bag);
         }
@@ -63,7 +63,7 @@ public class OrderController {
             List<OrderUser> orders = new ArrayList<OrderUser>();
 
             for(Bag bag: bags){
-                orders.add(new OrderUser(bag.getIdUser(),bag.getIdAddress(),bag.getItems()));
+                orders.add(new OrderUser(bag.getId(),bag.getIdUser(),bag.getIdAddress(),bag.getItems(),bag.getCreation()));
             }
 
             return new ResponseEntity(orders,HttpStatus.OK);
