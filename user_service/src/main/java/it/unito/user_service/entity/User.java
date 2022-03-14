@@ -115,4 +115,13 @@ public class User {
         this.phone = phone;
         this.password = password;
     }
+
+    public User(String name, String surname, String username, String email, String phone) {
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.email = email;
+        this.phone = phone;
+    }
+
 }
