@@ -93,7 +93,7 @@ public class AccountController {
             //_user.setUsername(user.getUsername());
 
 
-            Set<Address> addresses =  _user.getAddresses();
+            /*Set<Address> addresses =  _user.getAddresses();
             System.out.println("Is Empty? " + addresses.isEmpty()); //no address in registration
 
             if(addresses.isEmpty()){
@@ -140,7 +140,7 @@ public class AccountController {
 
                     }
                 }
-            }
+            }*/
 
 
 
