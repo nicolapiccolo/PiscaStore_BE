@@ -58,7 +58,14 @@ public class AccountController {
 
     }
 
-
+    @GetMapping("/address/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        if(addressRepository.existsById(id)) {
+            addressRepository.deleteById(id);
+            return new ResponseEntity("Deleted",HttpStatus.OK);
+        }
+        else return new ResponseEntity("Product not exists",HttpStatus.NOT_FOUND);
+    }
 
     @PostMapping("/create")
     public ResponseEntity<?> setAddress(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody Address address){
@@ -89,7 +96,7 @@ public class AccountController {
             //_user.setUsername(user.getUsername());
 
 
-            Set<Address> addresses =  _user.getAddresses();
+            /*Set<Address> addresses =  _user.getAddresses();
             System.out.println("Is Empty? " + addresses.isEmpty()); //no address in registration
 
             if(addresses.isEmpty()){
@@ -136,7 +143,7 @@ public class AccountController {
 
                     }
                 }
-            }
+            }*/
 
 
 
