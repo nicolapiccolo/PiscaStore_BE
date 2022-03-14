@@ -75,19 +75,34 @@ public class AccountController {
         return new ResponseEntity(String.valueOf(user_id),HttpStatus.OK);
     }
 
+
+    @GetMapping("/current/info")
+    public ResponseEntity<User> getInfo(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        Long user_id = userDetails.getId();
+        System.out.println(userDetails.getPhone());
+        User current = userRepository.getById(user_id);
+
+        User u = new User(current.getName(),current.getSurname(),current.getUsername(),current.getEmail(),current.getPhone());
+
+        System.out.println("USER; " + u);
+
+        return new ResponseEntity(u,HttpStatus.OK);
+    }
+
+
     @PutMapping("/update")
     public ResponseEntity<?> saveUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody User user){
 
         Optional<User> userData = userRepository.findById(userDetails.getId());
 
-        if(userData.isPresent()){
+        if(userData.isPresent()) {
             User _user = userData.get();
             _user.setName(user.getName());
             _user.setSurname(user.getSurname());
             _user.setEmail(user.getEmail());
             _user.setPhone(user.getPhone());
-            //_user.setUsername(user.getUsername());
 
+            /*
 
             Set<Address> addresses =  _user.getAddresses();
             System.out.println("Is Empty? " + addresses.isEmpty()); //no address in registration
@@ -136,7 +151,8 @@ public class AccountController {
 
                     }
                 }
-            }
+            }*/
+
 
 
 
